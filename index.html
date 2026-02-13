@@ -431,35 +431,26 @@
                 warning.textContent = warnings[noAttempts];
             }
 
-            // Move the No button around the white container
+            // Move the No button left or right inside the white container
             const rect = container.getBoundingClientRect();
-            const margin = 60;
+            const btnW = noBtn.offsetWidth;
+            const btnH = noBtn.offsetHeight;
+            const padding = 15;
 
-            // Pick a random side: 0=top, 1=bottom, 2=left, 3=right
-            const side = Math.floor(Math.random() * 4);
-            let currentLeft, currentTop;
-
-            if (side === 0) {
-                // Above the container
-                currentLeft = rect.left + Math.random() * rect.width - 40;
-                currentTop = rect.top - margin;
-            } else if (side === 1) {
-                // Below the container
-                currentLeft = rect.left + Math.random() * rect.width - 40;
-                currentTop = rect.bottom + 10;
-            } else if (side === 2) {
-                // Left of the container
-                currentLeft = rect.left - margin - 80;
-                currentTop = rect.top + Math.random() * rect.height - 20;
+            // Alternate between left and right side of the container
+            let currentLeft;
+            if (noAttempts % 2 === 1) {
+                // Left side
+                currentLeft = rect.left + padding;
             } else {
-                // Right of the container
-                currentLeft = rect.right + 10;
-                currentTop = rect.top + Math.random() * rect.height - 20;
+                // Right side
+                currentLeft = rect.right - btnW - padding;
             }
 
-            // Keep within screen bounds
-            currentLeft = Math.max(5, Math.min(currentLeft, window.innerWidth - 140));
-            currentTop = Math.max(5, Math.min(currentTop, window.innerHeight - 50));
+            // Random vertical position within the container
+            const minTop = rect.top + padding;
+            const maxTop = rect.bottom - btnH - padding;
+            let currentTop = minTop + Math.random() * (maxTop - minTop);
 
             noBtn.style.position = 'fixed';
             noBtn.style.left = currentLeft + 'px';

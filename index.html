@@ -437,20 +437,23 @@
             const btnH = noBtn.offsetHeight;
             const padding = 15;
 
-            // Alternate between left and right side of the container
+            // Move within the center half of the container, alternating left/right
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const halfW = rect.width / 4;
+            const halfH = rect.height / 4;
+
             let currentLeft;
             if (noAttempts % 2 === 1) {
                 // Left side
-                currentLeft = rect.left + padding;
+                currentLeft = centerX - halfW - btnW / 2;
             } else {
                 // Right side
-                currentLeft = rect.right - btnW - padding;
+                currentLeft = centerX + halfW - btnW / 2;
             }
 
-            // Random vertical position within the container
-            const minTop = rect.top + padding;
-            const maxTop = rect.bottom - btnH - padding;
-            let currentTop = minTop + Math.random() * (maxTop - minTop);
+            // Random vertical position within the center half
+            let currentTop = centerY - halfH + Math.random() * (halfH * 2);
 
             noBtn.style.position = 'fixed';
             noBtn.style.left = currentLeft + 'px';

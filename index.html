@@ -431,22 +431,35 @@
                 warning.textContent = warnings[noAttempts];
             }
 
-            // Move the No button in small jumps from current position
-            const vw = window.innerWidth;
-            const vh = window.innerHeight;
-            const jump = 80;
+            // Move the No button around the white container
+            const rect = container.getBoundingClientRect();
+            const margin = 60;
 
-            let prevLeft = parseFloat(noBtn.style.left);
-            let prevTop = parseFloat(noBtn.style.top);
-            if (isNaN(prevLeft)) prevLeft = noBtn.getBoundingClientRect().left;
-            if (isNaN(prevTop)) prevTop = noBtn.getBoundingClientRect().top;
+            // Pick a random side: 0=top, 1=bottom, 2=left, 3=right
+            const side = Math.floor(Math.random() * 4);
+            let currentLeft, currentTop;
 
-            let currentLeft = prevLeft + (Math.random() - 0.5) * 2 * jump;
-            let currentTop = prevTop + (Math.random() - 0.5) * 2 * jump;
+            if (side === 0) {
+                // Above the container
+                currentLeft = rect.left + Math.random() * rect.width - 40;
+                currentTop = rect.top - margin;
+            } else if (side === 1) {
+                // Below the container
+                currentLeft = rect.left + Math.random() * rect.width - 40;
+                currentTop = rect.bottom + 10;
+            } else if (side === 2) {
+                // Left of the container
+                currentLeft = rect.left - margin - 80;
+                currentTop = rect.top + Math.random() * rect.height - 20;
+            } else {
+                // Right of the container
+                currentLeft = rect.right + 10;
+                currentTop = rect.top + Math.random() * rect.height - 20;
+            }
 
             // Keep within screen bounds
-            currentLeft = Math.max(10, Math.min(currentLeft, vw - 140));
-            currentTop = Math.max(10, Math.min(currentTop, vh - 50));
+            currentLeft = Math.max(5, Math.min(currentLeft, window.innerWidth - 140));
+            currentTop = Math.max(5, Math.min(currentTop, window.innerHeight - 50));
 
             noBtn.style.position = 'fixed';
             noBtn.style.left = currentLeft + 'px';

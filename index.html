@@ -431,17 +431,22 @@
                 warning.textContent = warnings[noAttempts];
             }
 
-            // Move the No button to a random spot anywhere on screen
+            // Move the No button in small jumps from current position
             const vw = window.innerWidth;
             const vh = window.innerHeight;
-            const btnWidth = 130;
-            const btnHeight = 45;
+            const jump = 80;
 
-            const randomX = Math.random() * (vw - btnWidth);
-            const randomY = Math.random() * (vh - btnHeight);
+            let prevLeft = parseFloat(noBtn.style.left);
+            let prevTop = parseFloat(noBtn.style.top);
+            if (isNaN(prevLeft)) prevLeft = noBtn.getBoundingClientRect().left;
+            if (isNaN(prevTop)) prevTop = noBtn.getBoundingClientRect().top;
 
-            const currentLeft = randomX;
-            const currentTop = randomY;
+            let currentLeft = prevLeft + (Math.random() - 0.5) * 2 * jump;
+            let currentTop = prevTop + (Math.random() - 0.5) * 2 * jump;
+
+            // Keep within screen bounds
+            currentLeft = Math.max(10, Math.min(currentLeft, vw - 140));
+            currentTop = Math.max(10, Math.min(currentTop, vh - 50));
 
             noBtn.style.position = 'fixed';
             noBtn.style.left = currentLeft + 'px';
